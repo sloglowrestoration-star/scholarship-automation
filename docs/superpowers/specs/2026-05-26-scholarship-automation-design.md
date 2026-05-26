@@ -27,7 +27,7 @@ Mirrors the internship-automation pattern closely:
 
 | Component | Where it lives | Purpose |
 |---|---|---|
-| Gmail label `Scholarships` + filters | imajedimastr@gmail.com | Input gate. Filters auto-apply the label to known sender domains (Scholarships.com, Fastweb, Going Merry, BoldOrg, Cal Poly financial aid listservs, ME department listservs). |
+| Gmail label `Scholarships` + filters | imajedimastr@gmail.com | Input gate. Filters auto-apply the label to known sender domains (Scholarships.com, Fastweb, Going Merry, BoldOrg, ScholarshipOwl, Cal Poly financial aid listservs, ME department listservs). |
 | IMAP read credentials | `.env` as `IMAJE_GMAIL_APP_PASSWORD` | Lets the agent read labeled messages from imaje's primary inbox. |
 | `user-profile.md` | Committed in repo | Eligibility data for Fit scoring. Major, year, GPA, Cal Poly affiliation, residency, citizenship, demographics (only fields imaje is comfortable using), financial-need, career interests, extracurriculars summary. |
 | Google Drive folder "Scholarship Essays" | imaje's Google Drive | Stores past scholarship essays. Folder ID stored in `.env`. |
