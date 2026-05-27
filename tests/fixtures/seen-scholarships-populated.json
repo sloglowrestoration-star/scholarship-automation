@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "last_run_iso": "2026-05-26T16:00:00Z",
+  "entries": [
+    {
+      "id": "abc123",
+      "title": "Future Engineers of America Scholarship",
+      "sponsor": "FEA Foundation",
+      "deadline": "2026-09-15",
+      "award_usd": 5000,
+      "essay_required": true,
+      "interview_required": false,
+      "source_message_id": "<msg-1@scholarships.com>",
+      "application_url": "https://scholarships.com/feoa",
+      "first_seen": "2026-05-26T16:00:00Z",
+      "match_status": "NEW",
+      "fit": 78,
+      "odds": 55,
+      "effort": 60,
+      "expired_flag": false,
+      "deadline_reminder_surfaced": false
+    }
+  ]
+}
