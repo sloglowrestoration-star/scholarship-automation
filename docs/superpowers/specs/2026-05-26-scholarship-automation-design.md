@@ -62,7 +62,17 @@ Scan `seen-scholarships.json` for entries where deadline is 6–8 days out, not 
 Drop any scholarship where deadline < today from both the new section and the deadlines section.
 
 ### Stage 8 — Compose and send digest
-Plain-text email to `imajedimastr@gmail.com`, sent from `brody.internships@gmail.com`. Sort by composite score: `Fit × 2 + Odds + Effort` (Fit-dominant since unqualified entries are wasted reading and are already filtered at Fit=0). Each entry shows: title, sponsor, deadline, award, the three sub-scores, match status (`MATCH: <essay-filename>` or `NEW — outline below`), application URL, and the outline body if NEW.
+Plain-text email to `imajedimastr@gmail.com`, sent from `brody.internships@gmail.com`.
+
+**Grouping and sort (per user preference in `user-profile.md`):**
+1. Split the new-scholarships set into two groups: **No essay required** and **Essay required**.
+2. The **No essay required** group appears first in the digest (lower-effort applications surface first).
+3. Within each group, sort by award amount, highest prize first.
+4. Composite score (`Fit × 2 + Odds + Effort`) is no longer the primary sort key — it is now a tiebreaker between scholarships with the same award amount, and is still displayed on each entry as the three sub-scores.
+
+**Interview flag:** If a scholarship requires an interview, the digest line includes an inline `Interview required` flag. Interview-required entries are not excluded — they are surfaced like any other scholarship, just marked so they can be deprioritized visually.
+
+**Per-entry fields:** Title, sponsor, deadline, award amount, the three sub-scores, match status (`MATCH: <essay-filename>` or `NEW — outline below`), interview flag if applicable, application URL, and the outline body if NEW.
 
 ### Stage 9 — Persist state
 Append today's run summary to `run-log.md`. Update `seen-scholarships.json` with new entries (including their deadlines for later use in Stage 6). Commit both back to the repo via GitHub Contents API.
@@ -73,7 +83,7 @@ Append today's run summary to `run-log.md`. Update `seen-scholarships.json` with
 composite = Fit × 2 + Odds + Effort
 ```
 
-Fit-dominant by design. Outputs sort descending. A scholarship with Fit=0 never reaches the digest.
+Fit-dominant by design. A scholarship with Fit=0 never reaches the digest. The composite score is **not the primary digest sort key** — sort order is dictated by the user's preferences in `user-profile.md` (no-essay group first, then essay group; within each, sort by award descending). Composite serves as the tiebreaker between same-award scholarships and is still displayed per entry as the three sub-scores so the user can see at a glance why a given scholarship is or isn't worth the time.
 
 ## Email format (plain text)
 
@@ -81,22 +91,37 @@ Fit-dominant by design. Outputs sort descending. A scholarship with Fit=0 never 
 Scholarship Digest — YYYY-MM-DD
 ================================
 
-NEW TODAY (n)
--------------
+NO ESSAY REQUIRED (n)
+---------------------
 
 1. [Title] — [Sponsor]
-   Award: $X,XXX  Deadline: YYYY-MM-DD (n days)
-   Fit: 85  Odds: 60  Effort: 70
-   Match: leadership-overcoming-2025.docx (high overlap)
+   Award: $5,000  Deadline: YYYY-MM-DD (n days)
+   Fit: 85  Odds: 60  Effort: 95
+   No essay. Interview required.
    Apply: https://...
 
 2. [Title] — [Sponsor]
-   Award: $X,XXX  Deadline: YYYY-MM-DD (n days)
+   Award: $1,000  Deadline: YYYY-MM-DD (n days)
+   Fit: 70  Odds: 80  Effort: 90
+   No essay.
+   Apply: https://...
+
+ESSAY REQUIRED (n)
+------------------
+
+1. [Title] — [Sponsor]
+   Award: $10,000  Deadline: YYYY-MM-DD (n days)
+   Fit: 85  Odds: 60  Effort: 70
+   Match: ocean-protection-degree-purpose.md (high overlap)
+   Apply: https://...
+
+2. [Title] — [Sponsor]
+   Award: $2,500  Deadline: YYYY-MM-DD (n days)
    Fit: 70  Odds: 80  Effort: 40
-   NEW essay needed — outline:
+   NEW essay needed. Interview required. Outline:
      Prompt: "Describe a time you led through adversity..."
      Angles:
-       - Club budget crisis (matches profile: ME Council treasurer)
+       - Future Fuels solar array build (hands-on engineering leadership)
        - ...
      Structure: hook → setback → action → outcome → reflection
      Target: 500 words
