@@ -18,7 +18,8 @@
       "first_seen": "2026-05-27T19:53:25Z",
       "match_status": "NO_ESSAY",
       "expired_flag": false,
-      "deadline_reminder_surfaced": false
+      "deadline_reminder_surfaced": false,
+      "demographic_flag": ""
     },
     {
       "title": "Progressive Impact Scholarship 2026",
@@ -36,7 +37,8 @@
       "first_seen": "2026-05-27T19:53:25Z",
       "match_status": "NO_ESSAY",
       "expired_flag": false,
-      "deadline_reminder_surfaced": false
+      "deadline_reminder_surfaced": false,
+      "demographic_flag": ""
     },
     {
       "title": "AAIA Scholarships",
@@ -54,7 +56,8 @@
       "first_seen": "2026-05-27T19:53:25Z",
       "match_status": "NO_ESSAY",
       "expired_flag": false,
-      "deadline_reminder_surfaced": false
+      "deadline_reminder_surfaced": false,
+      "demographic_flag": ""
     },
     {
       "title": "Martin Rasnick Memorial Research Scholarship",
@@ -72,7 +75,8 @@
       "first_seen": "2026-05-27T19:53:25Z",
       "match_status": "NO_ESSAY",
       "expired_flag": false,
-      "deadline_reminder_surfaced": false
+      "deadline_reminder_surfaced": false,
+      "demographic_flag": ""
     }
   ]
 }

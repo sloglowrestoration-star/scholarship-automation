@@ -61,8 +61,11 @@ Set on each record:
 - `fit` (0-100)
 - `odds` (0-100)
 - `effort` (0-100)
+- `demographic_flag` (string -- short tag like "Native American", "Hindu", "Women in STEM"; empty string `""` if not flagged)
 
-Drop any record where `fit == 0` (hard disqualifier per the rubric). Log the count of dropped records.
+Drop any record where `fit == 0` (hard disqualifier per the rubric -- wrong major, wrong citizenship, wrong state, wrong class year). Log the count of dropped records.
+
+Records with a non-empty `demographic_flag` are NOT dropped -- they remain in `new_records` and are routed to a separate digest section in Stage 8.
 
 ---
 
@@ -118,14 +121,18 @@ Compute today's date: `python -c "from datetime import date; print(date.today())
 
 Compose the email body following the format in `templates/email-digest.txt`:
 
-1. Split `new_records` into two buckets: `no_essay` (essay_required == false) and `essay` (essay_required == true or None)
+1. Split `new_records` into three buckets:
+   - `demographic_flagged`: records with non-empty `demographic_flag`
+   - `no_essay`: of the remainder, those with `essay_required == false`
+   - `essay`: of the remainder, those with `essay_required == true` or None
 2. Sort each bucket descending by `award_usd` (nulls last)
 3. For the essay bucket, include `Match: <filename>` or the full outline block
 4. Mark any entry with `interview_required == true` with "INTERVIEW REQUIRED" on its own line
 5. Append the Deadlines This Week section from `deadline_reminders`
-6. If both sections are empty, use the no-activity variant from `templates/email-digest.txt`
+6. Append the Demographic-Restricted section from `demographic_flagged` AT THE BOTTOM, after Deadlines This Week
+7. If all sections are empty, use the no-activity variant from `templates/email-digest.txt`
 
-Count N = len(new_records), M = len(deadline_reminders).
+Count N = len(new_records) (includes demographic_flagged), M = len(deadline_reminders), D = len(demographic_flagged).
 Subject: `Scholarship Digest -- YYYY-MM-DD (N new, M deadlines)`
 
 Write body to `/tmp/scholarship_digest_body.txt`.
@@ -151,7 +158,7 @@ If any stage above raised an unrecoverable exception:
 Build the updated `seen-scholarships.json`:
 - Keep all existing entries
 - For entries modified in Stages 6/7: update `deadline_reminder_surfaced` and `expired_flag`
-- Append `new_records` (after Stage 3 filtering) as new entries, each with:
+- Append `new_records` (after Stage 3 filtering, includes demographic_flagged) as new entries, each with:
   - `id`: computed SHA-256 from Stage 2
   - `title`, `sponsor`, `deadline`, `award_usd`, `essay_required`, `interview_required`
   - `source_message_id`: from the original email record
@@ -159,6 +166,7 @@ Build the updated `seen-scholarships.json`:
   - `first_seen`: now (UTC ISO datetime with Z suffix)
   - `match_status`: from Stage 4
   - `fit`, `odds`, `effort`: from Stage 3
+  - `demographic_flag`: from Stage 3 (empty string if not flagged)
   - `expired_flag`: false
   - `deadline_reminder_surfaced`: false
 - Update `last_run_iso` to now (UTC ISO datetime, Z suffix)

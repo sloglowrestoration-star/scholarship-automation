@@ -10,8 +10,17 @@ How well does Brody match the eligibility criteria?
 - Wrong major (e.g. "for English majors only")
 - Wrong citizenship (Brody is a US Citizen, so non-citizen-only scholarships disqualify)
 - Wrong state of residence AND scholarship is state-restricted (AR or CA are both valid per profile; all other state-restricted scholarships disqualify)
-- Wrong gender/demographic restriction that Brody doesn't match
 - Class year mismatch (e.g. "graduating seniors only" — Brody is a sophomore)
+
+These are facts in `user-profile.md` that Brody has declared. A mismatch means he cannot apply.
+
+**Demographic restrictions — do NOT disqualify, flag instead:**
+
+If the scholarship's title, sponsor, or eligibility text indicates a demographic group Brody has not claimed in `user-profile.md` (ethnicity, religion, gender, sexual orientation, military/veteran family, first-gen, disability, unique hardship), set `demographic_flag` on the record to a short tag like `"Native American"`, `"Latino/a"`, `"Hindu"`, `"Women in STEM"`, `"Veteran family"`. These records are routed to a separate "DEMOGRAPHIC-RESTRICTED — REVIEW MANUALLY" section of the digest so Brody can opt in by editing his profile if any apply.
+
+Apply -15 to Fit (it is a stretch as-scored) but continue scoring normally. Do not set Fit = 0.
+
+For non-flagged records, leave `demographic_flag` as an empty string `""`.
 
 **Otherwise, start at 50 and adjust:**
 - +20: scholarship explicitly targets mechanical or energy engineering
@@ -20,7 +29,7 @@ How well does Brody match the eligibility criteria?
 - +10: scholarship favors first-gen, financial-need, or Pell-eligible students (Brody is half-Pell)
 - +10: scholarship targets Cal Poly or California public university students
 - +5: scholarship favors students with entrepreneurship interest (Brody has the minor)
-- -15: scholarship explicitly favors a demographic Brody doesn't match (stretch, not disqualified)
+- -15: scholarship explicitly favors a demographic Brody doesn't match (the demographic_flag case above)
 - Cap at 100, floor at 1
 
 ## Odds (0-100)

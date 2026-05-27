@@ -70,7 +70,27 @@ Sort ascending by deadline (closest first).
 
 ===
 
-If both sections are empty:
+DEMOGRAPHIC-RESTRICTED section format (always at the BOTTOM, after Deadlines This Week):
+
+DEMOGRAPHIC-RESTRICTED (N) -- REVIEW MANUALLY
+---------------------------------------------
+These scholarships favor a demographic Brody has not claimed in his profile
+(ethnicity, religion, gender, sexual orientation, military/veteran family,
+first-gen, disability, etc.). If any apply, update user-profile.md to opt in
+and the next digest will score them normally.
+
+1. [Title] -- [Sponsor]
+   Award: $X,XXX  Deadline: YYYY-MM-DD (n days)
+   Restriction: [demographic_flag]
+   Fit: 35  Odds: 60  Effort: 80
+   [INTERVIEW REQUIRED -- flag here if true]
+   Apply: https://...
+
+Sort descending by award amount. Nulls last. Omit the entire section if N == 0.
+
+===
+
+If all sections are empty:
 
 NEW TODAY (0)
 

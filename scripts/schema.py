@@ -24,6 +24,7 @@ REQUIRED_ENTRY_FIELDS = {
     "effort": int,
     "expired_flag": bool,
     "deadline_reminder_surfaced": bool,
+    "demographic_flag": str,
 }
 
 
