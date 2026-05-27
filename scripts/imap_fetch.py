@@ -66,15 +66,30 @@ def _parse_eml(raw_bytes: bytes) -> dict[str, Any]:
 
 
 def _extract_text_body(msg: email.message.Message) -> str:
+    """Return best-effort body text.
+
+    Prefers a non-empty text/plain part. Falls back to text/html if no usable
+    plain part exists — many marketing senders include an empty text/plain
+    placeholder alongside the real HTML payload.
+    """
     if msg.is_multipart():
+        plain = ""
+        html = ""
         for part in msg.walk():
-            if part.get_content_type() == "text/plain":
-                payload = part.get_payload(decode=True)
-                if payload:
-                    return payload.decode(
-                        part.get_content_charset() or "utf-8", errors="replace"
-                    )
-        return ""
+            ct = part.get_content_type()
+            if ct not in ("text/plain", "text/html"):
+                continue
+            payload = part.get_payload(decode=True)
+            if not payload:
+                continue
+            decoded = payload.decode(
+                part.get_content_charset() or "utf-8", errors="replace"
+            )
+            if ct == "text/plain" and not plain:
+                plain = decoded
+            elif ct == "text/html" and not html:
+                html = decoded
+        return plain or html
     payload = msg.get_payload(decode=True)
     if not payload:
         return ""
