@@ -1,0 +1,19 @@
+# Credentials and local state
+.env
+.env.scratch
+.env.scratch.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Output scratch
+out/
