@@ -53,6 +53,26 @@ Hold the surviving records in memory as `new_records`.
 
 ---
 
+## Stage 2.5 -- Resolve essay_required via page scan
+
+For each record in `new_records` where `essay_required is None` (the email was silent):
+
+```python
+from scripts.page_scan import scan_url
+verdict, evidence = scan_url(record["application_url"])
+```
+
+Apply the result:
+- `verdict == "essay"`    -> `record["essay_required"] = True`  (page had explicit essay-requirement language)
+- `verdict == "no-essay"` -> `record["essay_required"] = False` (page explicitly disclaimed an essay)
+- `verdict == "unknown"`  -> `record["essay_required"] = True`  (page silent or unreachable; default to assuming an essay per user preference)
+
+Log per record: `{title, verdict, evidence}` so the run-log shows what was page-derived vs. email-derived. Records whose `essay_required` was set from the email body in Stage 2 are skipped here.
+
+The scanner uses a 12-second timeout per URL; ~4-8 URLs per run is acceptable. If a request fails entirely, treat as `unknown`.
+
+---
+
 ## Stage 3 -- Score each record
 
 For each record in `new_records`, apply `templates/score-rubric.md`. Read `user-profile.md` once at the start of this stage.

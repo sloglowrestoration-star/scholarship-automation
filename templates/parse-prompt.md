@@ -32,7 +32,10 @@ Each record has these fields:
 
 ## Rules
 
-1. **Be conservative on essay_required:** only mark `true` if the email explicitly mentions an essay, statement, personal narrative, or similar written-response requirement. Don't assume.
+1. **Determine essay_required from the email when possible:**
+   - If the email explicitly mentions an essay, statement, personal narrative, or similar written-response requirement → set `true`.
+   - If the email explicitly says "no essay required" / "no essay needed" / "easy to apply with no writing" → set `false`.
+   - **If the email is silent on essays (the common case for curated digests like Scholarships.com):** leave `essay_required` as `null`. Stage 2.5 in workflow.md will then page-scan the `application_url` and decide. If the scan returns "unknown", workflow defaults to `true` (assume essay).
 2. **award_usd is null when unstated.** Never invent or estimate.
 3. **deadline must be ISO date.** Convert "September 15, 2026" to "2026-09-15", "9/15/26" to "2026-09-15", etc. If only a year is given, use Dec 31 of that year.
 4. **Skip outright** if the listing has neither an extractable deadline nor an award amount. These are almost always promotional content.
